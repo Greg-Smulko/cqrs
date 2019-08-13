@@ -15,11 +15,13 @@ namespace OnlineTeaching
         {
             return new Id(id);
         }
-        protected Id()
+
+        private Id()
         {
             Value = Guid.NewGuid().ToString();
         }
-        protected Id(string id)
+
+        private Id(string id)
         {
             Value = id;
         }
