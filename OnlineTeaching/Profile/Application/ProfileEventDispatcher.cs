@@ -2,14 +2,14 @@
 
 namespace Profile.Application
 {
-    public class ProfileEventJournalPublisher : EventJournalPublisher
+    public class ProfileEventDispatcher : EventDispatcher
     {
         private Topic topic;
         private MessageBus messageBus;
-        public ProfileEventJournalPublisher(string journalName, string messageBusName, string topicName) : base(journalName, messageBusName, topicName)
+        public ProfileEventDispatcher(string journalName, string messageBusName, string topicName) : base(journalName, messageBusName, topicName)
         {
             messageBus = MessageBus.Start(messageBusName);
-            topic = messageBus.OpenTopic("all");
+            topic = messageBus.OpenTopic(topicName);
         }
 
         public override void Close()

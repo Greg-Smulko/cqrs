@@ -4,13 +4,13 @@ using OnlineTeaching.DataStore;
 
 namespace OnlineTeaching.Messaging
 {
-    public abstract class EventJournalPublisher
+    public abstract class EventDispatcher
     {
         private Topic Topic { get; }
         private EventJournal Journal { get; }
         private bool IsClosed { get; set; }
 
-        protected EventJournalPublisher(string journalName, string messageBusName, string topicName)
+        protected EventDispatcher(string journalName, string messageBusName, string topicName)
         {
             Journal = EventJournal.Open(journalName);
             Topic = MessageBus.Start(messageBusName).OpenTopic(topicName);

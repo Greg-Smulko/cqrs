@@ -4,11 +4,11 @@ namespace OnlineTeaching
 {
     public abstract class Aggregate
     {
-        public List<DomainEvent> MutatingEvents { get; }
+        public List<DomainEvent> Events { get; }
 
         protected Aggregate()
         {
-            MutatingEvents = new List<DomainEvent>();
+            Events = new List<DomainEvent>();
         }
 
         protected Aggregate(IEnumerable<DomainEvent> events) : this()
@@ -21,11 +21,11 @@ namespace OnlineTeaching
 
         protected void Apply(DomainEvent domainEvent)
         {
-            MutatingEvents.Add(domainEvent);
+            Events.Add(domainEvent);
             DispatchWhen(domainEvent);
         }
 
-        protected void DispatchWhen(DomainEvent domainEvent)
+        private void DispatchWhen(DomainEvent domainEvent)
         {
             ((dynamic)this).When((dynamic)domainEvent);
         }

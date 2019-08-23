@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using OnlineTeaching;
 
-namespace Profile.Domain
+namespace Profile.Domain.Models
 {
     public sealed class Tutor : Aggregate
     {

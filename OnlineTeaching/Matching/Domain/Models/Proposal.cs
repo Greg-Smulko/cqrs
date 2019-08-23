@@ -11,14 +11,14 @@ namespace Matching.Domain.Models
         public Tutor Tutor { get; private set; }
         public Expectations Expectations { get; private set; }
         public ProposalProgress Progress { get; private set; }
-        public static Proposal SubmitFor(Student student, Expectations expectations)
+        public static Proposal SubmitFor(Id proposalId, Student student, Expectations expectations)
         {
-            return new Proposal(student, expectations);
+            return new Proposal(proposalId, student, expectations);
         }
 
-        private Proposal(Student student, Expectations expectations)
+        private Proposal(Id proposalId,  Student student, Expectations expectations)
         {
-            Apply(new ProposalSubmitted(Id.Value, student.Id.Value, expectations));
+            Apply(new ProposalSubmitted(proposalId.Value, student.Id.Value, expectations));
         }
 
         public Proposal(IEnumerable<DomainEvent> events): base(events) { }
@@ -40,12 +40,12 @@ namespace Matching.Domain.Models
 
         public void When(ProposalSubmitted proposalSubmitted)
         {
-            Id = Id.Unique();
+            Id = Id.FromExisting(proposalSubmitted.ProposalId);
             Student = new Student(proposalSubmitted.StudentId);
             Expectations = Expectations.Of(proposalSubmitted.Summary, proposalSubmitted.Description,
                 proposalSubmitted.Language,
                 LessonSchedule.With(proposalSubmitted.StartDate, proposalSubmitted.EndDate,
-                    proposalSubmitted.ScheduleOfTheWeek));
+                    proposalSubmitted.Schedule));
             Progress = ProposalProgress.Submitted;
         }
 

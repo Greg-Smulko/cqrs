@@ -1,4 +1,5 @@
-﻿using OnlineTeaching.Messaging;
+﻿using System;
+using OnlineTeaching.Messaging;
 
 namespace Matching.Application
 {
@@ -6,15 +7,17 @@ namespace Matching.Application
     {
         public void Handle(Message message)
         {
+            Console.WriteLine(message.Type);
             switch (message.Type)
             {
+
             }
         }
 
         public ProfileTopicSubscriber()
         {
             var messageBus = MessageBus.Start("TalkWithMe");
-            var profileTopic = messageBus.OpenTopic("profile");
+            var profileTopic = messageBus.OpenTopic("Profile");
             profileTopic.Subscribe(this);
         }
     }

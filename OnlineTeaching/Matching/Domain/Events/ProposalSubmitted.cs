@@ -14,7 +14,7 @@ namespace Matching.Domain.Events
         public string Language { get; }
         public DateTime StartDate { get; }
         public DateTime? EndDate { get; }
-        public Dictionary<DayOfWeek, TimeSpan> ScheduleOfTheWeek { get; }
+        public List<DayOfWeek> Schedule { get; }
 
         public ProposalSubmitted(string proposalId, string studentId, Expectations expectations)
         {
@@ -25,7 +25,7 @@ namespace Matching.Domain.Events
             Language = expectations.Language;
             StartDate = expectations.Schedule.StartDate;
             EndDate = expectations.Schedule.EndDate;
-            ScheduleOfTheWeek = expectations.Schedule.ScheduleOfTheWeek;
+            Schedule = expectations.Schedule.Schedule;
         }
     }
 }

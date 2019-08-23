@@ -5,7 +5,7 @@ namespace OnlineTeaching.DataStore
 {
     public abstract class EventSourceRepository
     {
-        public IEnumerable<DomainEvent> ToDomainEvents(IEnumerable<EventEntity> events)
+        protected IEnumerable<DomainEvent> ToDomainEvents(IEnumerable<EventEntity> events)
         {
             var domainEvents = new List<DomainEvent>();
             foreach (var ev in events)
@@ -16,13 +16,13 @@ namespace OnlineTeaching.DataStore
             return domainEvents;
         }
 
-        public IEnumerable<EventEntity> ToEventSourceEvents(string identifier, IEnumerable<DomainEvent> events)
+        protected IEnumerable<EventEntity> ToStoreEvents(string identifier, IEnumerable<DomainEvent> events)
         {
             var esEvents = new List<EventEntity>();
             foreach (var ev in events)
             {
                 var body = JsonConvert.SerializeObject(ev);
-                esEvents.Add(new EventEntity(identifier, body, ev.GetType().AssemblyQualifiedName));
+                esEvents.Add(new EventEntity(identifier, body, ev.GetType().FullName));
             }
 
             return esEvents;

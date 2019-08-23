@@ -8,20 +8,20 @@ namespace Matching.Domain.Models
     {
         public DateTime StartDate { get; }
         public DateTime? EndDate { get; }
-        public Dictionary<DayOfWeek, TimeSpan> ScheduleOfTheWeek { get; }
+        public List<DayOfWeek> Schedule { get; }
 
         public static LessonSchedule With(DateTime startDate, DateTime? endDate,
-            Dictionary<DayOfWeek, TimeSpan> scheduleOfTheWeek)
+            List<DayOfWeek> schedule)
         {
-            return new LessonSchedule(startDate, endDate, scheduleOfTheWeek);
+            return new LessonSchedule(startDate, endDate, schedule);
         }
 
         private LessonSchedule(DateTime startDate, DateTime? endDate,
-            Dictionary<DayOfWeek, TimeSpan> scheduleOfTheWeek)
+            List<DayOfWeek> schedule)
         {
             StartDate = startDate;
             EndDate = endDate;
-            ScheduleOfTheWeek = scheduleOfTheWeek;
+            Schedule = schedule;
         }
     }
 }

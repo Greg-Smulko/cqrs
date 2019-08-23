@@ -14,11 +14,11 @@ namespace Matching.Domain
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
         public void Submit(string studentId, string summary, string description, string language,
-            DateTime startDate, DateTime? endDate, Dictionary<DayOfWeek, TimeSpan> scheduleOfTheWeek)
+            DateTime startDate, DateTime? endDate, List<DayOfWeek> schedule)
         {
-            var proposal = Proposal.SubmitFor(new Student(studentId),
+            var proposal = Proposal.SubmitFor(Id.Unique(), new Student(studentId),
                 Expectations.Of(summary, description, language,
-                    LessonSchedule.With(startDate, endDate, scheduleOfTheWeek)));
+                    LessonSchedule.With(startDate, endDate, schedule)));
             _repository.Save(proposal);
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Matching.Domain;
+﻿using Matching.Domain;
 using Matching.Domain.Models;
 using OnlineTeaching;
 using OnlineTeaching.DataStore;
@@ -22,7 +21,7 @@ namespace Matching.Persistence
 
         public void Save(Proposal proposal)
         {
-            var events = ToEventSourceEvents(proposal.Id.Value, proposal.MutatingEvents);
+            var events = ToStoreEvents(proposal.Id.Value, proposal.Events);
             _eventJournal.Write(events);
         }
     }
