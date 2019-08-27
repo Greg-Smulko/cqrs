@@ -28,7 +28,8 @@ namespace OnlineTeaching.Messaging
             {
                 while (!IsClosed)
                 {
-                    if (Journal.TryReadNext(out var journalEvent))
+                    var journalEvent = Journal.ReadNext();
+                    if (journalEvent != null)
                     {
                         var message = new Message(journalEvent.Type, journalEvent.Body, journalEvent.Identifier);
                         Topic.Publish(message);

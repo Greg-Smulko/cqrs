@@ -49,7 +49,10 @@ namespace OnlineTeaching.Messaging
                             {
                                 subscriber.Handle(message);
                             }
-                            catch { }
+                            catch (Exception ex)
+                            {
+                                var error = ex.Message;
+                            }
                         }
                     }
                     Task.Delay(TimeSpan.FromMilliseconds(100));

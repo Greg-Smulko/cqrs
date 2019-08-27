@@ -4,18 +4,18 @@ namespace Matching.Application
 {
     public class MatchingEventDispatcher : EventDispatcher
     {
-        private Topic topic;
-        private MessageBus messageBus;
+        private readonly Topic _topic;
+        private readonly MessageBus _messageBus;
         public MatchingEventDispatcher(string journalName, string messageBusName, string topicName) : base(journalName, messageBusName, topicName)
         {
-            messageBus = MessageBus.Start(messageBusName);
-            topic = messageBus.OpenTopic(topicName);
+            _messageBus = MessageBus.Start(messageBusName);
+            _topic = _messageBus.OpenTopic(topicName);
         }
 
         public override void Close()
         {
-            topic.Close();
-            messageBus.Close();
+            _topic.Close();
+            _messageBus.Close();
         }
     }
 }

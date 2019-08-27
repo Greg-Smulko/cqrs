@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace OnlineTeaching.DataStore
@@ -10,7 +11,8 @@ namespace OnlineTeaching.DataStore
             var domainEvents = new List<DomainEvent>();
             foreach (var ev in events)
             {
-                domainEvents.Add(JsonConvert.DeserializeObject<DomainEvent>(ev.Body));
+                var type = Type.GetType(ev.Type);
+                domainEvents.Add((DomainEvent)JsonConvert.DeserializeObject(ev.Body, type, new JsonSerializerSettings()));
             }
 
             return domainEvents;
@@ -22,7 +24,7 @@ namespace OnlineTeaching.DataStore
             foreach (var ev in events)
             {
                 var body = JsonConvert.SerializeObject(ev);
-                esEvents.Add(new EventEntity(identifier, body, ev.GetType().FullName));
+                esEvents.Add(new EventEntity(identifier, body, ev.GetType().AssemblyQualifiedName));
             }
 
             return esEvents;

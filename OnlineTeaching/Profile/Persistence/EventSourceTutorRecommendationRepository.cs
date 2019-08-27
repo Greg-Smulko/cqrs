@@ -3,9 +3,9 @@ using OnlineTeaching.DataStore;
 using Profile.Domain;
 using Profile.Domain.Models;
 
-namespace Matching.Persistence
+namespace Profile.Persistence
 {
-    public class EventSourceTutorRecommendationRepository : EventSourceRepository, TutorRepository
+    public class EventSourceTutorRecommendationRepository : EventSourceRepository, TutorRecommendationRepository
     {
         private readonly EventJournal _eventJournal;
         public EventSourceTutorRecommendationRepository()
@@ -13,14 +13,15 @@ namespace Matching.Persistence
             _eventJournal = EventJournal.Open("TalkWithMe-Profile");
         }
 
-        public Tutor TutorOf(Id id)
+        public TutorRecommendation RecommendationFor(Id proposalId)
         {
             throw new System.NotImplementedException();
         }
 
-        public void Save(Tutor proposal)
+        public void Save(TutorRecommendation recommendation)
         {
-            throw new System.NotImplementedException();
+            var events = ToStoreEvents(recommendation.ProposalId.Value, recommendation.Events);
+            _eventJournal.Write(events);
         }
     }
 }

@@ -3,6 +3,7 @@
     public enum ProposalProgress
     {
         Submitted,
+        TutorRecommended,
         TutorAssigned,
         Accepted,
         Declined

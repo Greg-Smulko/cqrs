@@ -1,20 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using OnlineTeaching;
+using Profile.Domain.Events;
 
 namespace Profile.Domain.Models
 {
     public class TutorRecommendation : Aggregate
     {
-        public string ProposalId { get; }
-        public string Summary { get; }
-        public string Description { get; }
+        public Id ProposalId { get; }
         public string Language { get; }
-        public DateTime StartDate { get; }
-        public DateTime? EndDate { get; }
-        public Dictionary<DayOfWeek, TimeSpan> ScheduleOfTheWeek { get; }
-        public List<string> Tutors { get; }
+        public IEnumerable<DayOfWeek> ScheduleOfTheWeek { get; }
+        public Id Tutor { get; private set; }
 
+        public static TutorRecommendation For(Id proposalId, string language,
+            IEnumerable<DayOfWeek> scheduleOfTheWeek)
+        {
+            return new TutorRecommendation(proposalId, language, scheduleOfTheWeek);
+        }
+
+        private TutorRecommendation(Id proposalId, string language, IEnumerable<DayOfWeek> scheduleOfTheWeek)
+        {
+            ProposalId = proposalId;
+            Language = language;
+            ScheduleOfTheWeek = scheduleOfTheWeek;
+        }
+
+        public void Recommend(Id tutorId)
+        {
+            if (Tutor == null)
+            {
+                Apply(new TutorRecommended(ProposalId.Value, tutorId.Value));
+            }
+        }
+
+        public void When(TutorRecommended tutorRecommended)
+        {
+            Tutor = Id.FromExisting(tutorRecommended.TutorId);
+        }
     }
 }

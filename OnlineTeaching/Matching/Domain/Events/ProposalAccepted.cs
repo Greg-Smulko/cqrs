@@ -27,7 +27,7 @@ namespace Matching.Domain.Events
             Language = expectations.Language;
             StartDate = expectations.Schedule.StartDate;
             EndDate = expectations.Schedule.EndDate;
-            Schedule = expectations.Schedule.Schedule;
+            Schedule = expectations.Schedule.ScheduleOfTheWeek;
         }
     }
 }

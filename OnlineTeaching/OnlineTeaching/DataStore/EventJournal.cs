@@ -1,9 +1,21 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace OnlineTeaching.DataStore
 {
+    public class EventJournalReader
+    {
+        private readonly string _readName;
+        private readonly EventJournal _journal;
+
+        public EventJournalReader(string readName, EventJournal journal)
+        {
+            _readName = readName ?? throw new ArgumentNullException(nameof(readName));
+            _journal = journal ?? throw new ArgumentNullException(nameof(journal));
+        }
+    }
+
     public class EventJournal
     {
         private static readonly Dictionary<string, EventJournal> EventJournals = new Dictionary<string, EventJournal>();
@@ -23,18 +35,25 @@ namespace OnlineTeaching.DataStore
         }
 
         private string Name { get; }
-        private ConcurrentBag<EventEntity> Store { get; }
+        private List<EventEntity> Store { get; }
+        private readonly object _lock = new object();
+        
+
+        //Hack for journal readers
+        private int _index = 0;
+        
+
         private EventJournal(string name)
         {
             Name = name;
-            Store = new ConcurrentBag<EventEntity>();
+            Store = new List<EventEntity>();
         }
 
         public void Write(IEnumerable<EventEntity> events)
         {
-            foreach(var e in events)
+            lock (_lock)
             {
-                Store.Add(e);
+                Store.AddRange(events);
             }
         }
 
@@ -43,9 +62,12 @@ namespace OnlineTeaching.DataStore
             return Store.Where(e => e.Identifier == identifier);
         }
 
-        public bool TryReadNext(out EventEntity storeEvent)
+        public EventEntity ReadNext()
         {
-            return Store.TryTake(out storeEvent);
+            lock (_lock)
+            {
+                return _index >= Store.Count ? null : Store[_index++];
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Matching.Domain.Models
     {
         public DateTime StartDate { get; }
         public DateTime? EndDate { get; }
-        public List<DayOfWeek> Schedule { get; }
+        public List<DayOfWeek> ScheduleOfTheWeek { get; }
 
         public static LessonSchedule With(DateTime startDate, DateTime? endDate,
             List<DayOfWeek> schedule)
@@ -17,11 +17,11 @@ namespace Matching.Domain.Models
         }
 
         private LessonSchedule(DateTime startDate, DateTime? endDate,
-            List<DayOfWeek> schedule)
+            List<DayOfWeek> scheduleOfTheWeek)
         {
             StartDate = startDate;
             EndDate = endDate;
-            Schedule = schedule;
+            ScheduleOfTheWeek = scheduleOfTheWeek;
         }
     }
 }

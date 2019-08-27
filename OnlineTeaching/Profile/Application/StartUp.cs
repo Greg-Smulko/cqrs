@@ -4,7 +4,7 @@
     {
         public static void Main()
         {
-            var dispatcher = new ProfileEventDispatcher("TalkWithMe-Matching", "TalkWithMe", "Matching");
+            var dispatcher = new ProfileEventDispatcher("TalkWithMe-Profile", "TalkWithMe", "Profile");
             var matchingSubscriber = new MatchingTopicSubscriber();
         }
     }

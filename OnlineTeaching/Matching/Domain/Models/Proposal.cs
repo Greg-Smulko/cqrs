@@ -16,12 +16,14 @@ namespace Matching.Domain.Models
             return new Proposal(proposalId, student, expectations);
         }
 
-        private Proposal(Id proposalId,  Student student, Expectations expectations)
+        private Proposal(Id proposalId, Student student, Expectations expectations)
         {
-            Apply(new ProposalSubmitted(proposalId.Value, student.Id.Value, expectations));
+            Apply(new ProposalSubmitted(proposalId.Value, student.Id.Value, expectations.Summary,
+                expectations.Description, expectations.Language, expectations.Schedule.StartDate,
+                expectations.Schedule.EndDate, expectations.Schedule.ScheduleOfTheWeek));
         }
 
-        public Proposal(IEnumerable<DomainEvent> events): base(events) { }
+        public Proposal(IEnumerable<DomainEvent> events) : base(events) { }
 
         public void AssignTutor(Tutor tutor)
         {
@@ -35,7 +37,7 @@ namespace Matching.Domain.Models
 
         public void Decline()
         {
-            Apply(new ProposalDeclined(Id.Value, Student.Id.Value,Tutor.Id.Value));
+            Apply(new ProposalDeclined(Id.Value, Student.Id.Value, Tutor.Id.Value));
         }
 
         public void When(ProposalSubmitted proposalSubmitted)
