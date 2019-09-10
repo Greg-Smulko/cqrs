@@ -10,16 +10,16 @@ namespace Profile.Domain.Models
         public List<LanguageQualification> Languages { get; }
         public Dictionary<DayOfWeek, List<TimeSpan>> Availability { get; }
 
-        public static Tutor With(List<LanguageQualification> languages, Dictionary<DayOfWeek, List<TimeSpan>> availability)
+        public static Tutor Register()
         {
-            return new Tutor(Id.Unique(), languages, availability);
+            return new Tutor(Id.Unique());
         }
 
-        private Tutor(Id id, List<LanguageQualification> languages, Dictionary<DayOfWeek, List<TimeSpan>> availability)
+        private Tutor(Id id)
         {
             Id = id;
-            Languages = languages;
-            Availability = availability;
+            Languages = new List<LanguageQualification>();
+            Availability = new Dictionary<DayOfWeek, List<TimeSpan>>();
         }
     }
 }

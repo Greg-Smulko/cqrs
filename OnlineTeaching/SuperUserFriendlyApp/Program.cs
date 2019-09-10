@@ -36,7 +36,6 @@ namespace SuperUserFriendlyApp
                 else if (line.StartsWith(showProposalStatus))
                 {
                     var proposalId = line.Substring(showProposalStatus.Length + 1);
-
                 }
                 else if (line.StartsWith(tutorAcceptsProposal))
                 {
